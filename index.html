@@ -14,5 +14,15 @@
     <script src='vid.js'></script>
     <script src='watchout.js'></script>
     <script src='player.js'></script>
+    <script>
+    var gameOptions = {
+  height: 450,
+  width: 700,
+  nEnemies: 30,
+  padding: 20
+};
+      var player = new Player(gameOptions);
+      player.render(gameBoard);
+    </script>
   </body>
 </html>

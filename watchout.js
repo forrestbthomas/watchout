@@ -16,7 +16,7 @@ var axes = {
   y: d3.scale.linear().domain([0,100]).range([0,gameOptions.height]),
 };
 
-var gameBoard = d3.select('.container')append('svg:svg')
+var gameBoard = d3.selectAll('.container').append('svg:svg')
   .attr('width', gameOptions.width)
   .attr('height', gameOptions.height);
 

@@ -8,4 +8,72 @@ var Player = function(gameOptions){
   this.gameOptions = gameOptions;
 };
 
+Player.prototype.render = function(to){
+  //revist this.el
+  this.el = to.append('svg:path')
+              .attr('d', this.path)
+              .attr('fill', this.fill);
+  this.transform = {
+    x: this.gameOptions.width * 0.5,
+    y: this.gameOptions.height * 0.5
+  };
+  this.setupDragging();
+  return this;
+};
+
+Player.prototype.getX = function(){
+  return this.x;
+};
+
+Player.prototype.setX = function(x){
+  var minX = this.gameOptions.padding;
+  var maxX = this.gameOptions.width - this.gameOptions.padding;
+  x = x <= minX ? minX : x;
+  x = x >= maxX ? maxX : x;
+  return this.x;
+};
+
+Player.prototype.getY = function(){
+  return this.y;
+};
+
+Player.prototype.setY = function(y){
+  var minY = this.gameOptions.padding;
+  var maxY = this.gameOptions.width - this.gameOptions.padding;
+  y = y <= minY ? minY : y;
+  y = y >= maxY ? maxY : y;
+  return this.y;
+};
+
+Player.prototype.transform = function(opts){
+  this.angle = opts.angle || this.angle;
+  var newX = opts.x || this.x;
+  var newY = opts.y || this.y;
+  this.setX(newX);
+  this.setY(newY);
+  var inputVal = 'rotate(' + this.angle + ',' + this.getX() +
+    ',' + this.getY() + ',translate(' + this.getX() +
+    ',' + this.getY() + ')';
+  this.el.attr('transform', inputVal);
+};
+
+Player.prototype.moveAbsolute = function(x,y){
+  this.transform({x:x,y:y});
+};
+
+Player.prototype.moveRelative = function(dx,dy){
+  var newX = this.getX() + dx;
+  var newY = this.getY() + dy;
+  var newAngle = 360 * (Math.atan2(dy,dx)/(Math.PI*2));
+  this.transform({x:newX,y:newY,angle:newAngle});
+};
+
+Player.prototype.setupDragging = function(){
+  var dragMove = function(){
+    this.moveRelative(d3.event.dx, d3.event.dy);
+  };
+
+  var drag = d3.behavior.drag().on('drag', dragMove());
+  this.el.call(drag);
+};
 
