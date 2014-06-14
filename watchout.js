@@ -31,12 +31,12 @@ gameBoard.append ('svg:rect')
 
 
 var updateScore = function(){
-  d3.select('#current-score').text(gameStats.score.toString());
+  d3.select('.current span').text(gameStats.score.toString());
 };
 
 var updateBestScore = function(){
   gameStats.bestScore = _.max([gameStats.bestScore, gameStats.score]);
-  d3.select('#best-score').text(gameStats.bestScore.toString());
+  d3.select('.high span').text(gameStats.bestScore.toString());
 };
 
 var players = [];
@@ -74,7 +74,6 @@ var render = function(enemyList){
       var separation = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff,2));
       // TODO why are there no params???
       if( separation < radiusSum ){
-
         collidedCallback();
       }
     });
@@ -123,10 +122,16 @@ var play = function(){
     var enemies = createEnemies();
     render(enemies);
   };
+  var increaseScore = function(){
+    gameStats.score += 1;
+    updateScore();
+  };
 
   gameTurn();
 
   setInterval(gameTurn, 2000);
+  setInterval(increaseScore, 50);
+
 };
 
 play();
