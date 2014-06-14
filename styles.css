@@ -1,5 +1,19 @@
 /* your beautiful css styling goes here! */
 
-/* Note: an asteroid image is included in this repo. 
+/* Note: an asteroid image is included in this repo.
 Feel free to use it if you like. */
+body {
+  background-image: url('static/background.PNG');
+}
 
+.container {
+  margin: 0 auto 0 auto;
+  width: 700px;
+}
+
+.scoreboard{
+  color: white;
+  background-color: black;
+  width: 300px;
+  height: 150px;
+}

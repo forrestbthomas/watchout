@@ -2,6 +2,7 @@
 <html>
   <head>
     <link rel='stylesheet' type='css' href='styles.css'>
+    <script src="../underscore.js"></script>
   </head>
   <body>
     <div class="scoreboard">
@@ -10,19 +11,13 @@
       <div class="current">Current score: <span>0</span></div>
       <div class="collisions">Collisions: <span>0</span></div>
     </div>
+    <div class='container'></div>div>
     <script src="d3.js" charset="utf-8"></script>
-    <script src='vid.js'></script>
-    <script src='watchout.js'></script>
+<!--     <script src='vid.js'></script> -->
     <script src='player.js'></script>
+    <script src='watchout.js'></script>
     <script>
-    var gameOptions = {
-  height: 450,
-  width: 700,
-  nEnemies: 30,
-  padding: 20
-};
-      var player = new Player(gameOptions);
-      player.render(gameBoard);
+
     </script>
   </body>
 </html>
