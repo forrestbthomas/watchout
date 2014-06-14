@@ -8,7 +8,8 @@ var gameOptions = {
 
 var gameStats = {
   score: 0,
-  bestScore: 0
+  bestScore: 0,
+  collisions: 0
 };
 
 var axes = {
@@ -32,6 +33,7 @@ gameBoard.append ('svg:rect')
 
 var updateScore = function(){
   d3.select('.current span').text(gameStats.score.toString());
+  d3.select('.collisions span').text(gameStats.collisions.toString());
 };
 
 var updateBestScore = function(){
@@ -82,6 +84,7 @@ var render = function(enemyList){
 
   var onCollision = function(enemy, collidedCallback){
     updateBestScore();
+    gameStats.collisions += 1;
     gameStats.score = 0;
     updateScore();
   };
