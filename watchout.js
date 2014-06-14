@@ -12,6 +12,10 @@ var gameStats = {
   collisions: 0
 };
 
+var enemyOptions = {
+  rotation: 0
+};
+
 var axes = {
   x: d3.scale.linear().domain([0,100]).range([0,gameOptions.width]),
   y: d3.scale.linear().domain([0,100]).range([0,gameOptions.height]),
@@ -52,17 +56,18 @@ var createEnemies = function(){
 
 var render = function(enemyList){
 
-  var enemies = gameBoard.selectAll('circle.enemy').data(enemyList, function(d){
+  var enemies = gameBoard.selectAll('image.enemy').data(enemyList, function(d){
     return d.id;
   });
 
   enemies.enter()
-    .append('svg:circle')
+    .append('svg:image')
       .attr('class', 'enemy')
-      .attr('cx', function(enemy){return axes.x(enemy.x);})
-      .attr('cy', function(enemy){return axes.y(enemy.y);})
-      .attr('r', 0)
-      .attr('fill', 'black');
+      .attr('x', function(enemy){ return axes.x(enemy.x);})
+      .attr('y', function(enemy){ return axes.y(enemy.y);})
+      .attr('xlink:href', 'static/logo.svg')
+      .attr('width', '20px')
+      .attr('height', '20px');
 
   enemies.exit()
     .remove();
@@ -70,8 +75,8 @@ var render = function(enemyList){
   var checkCollision = function(enemy, collidedCallback){
     _.each(players, function(player){
       var radiusSum = parseFloat(enemy.attr('r')) + player.r;
-      var xDiff = parseFloat(enemy.attr('cx')) - player.x;
-      var yDiff = parseFloat(enemy.attr('cy')) - player.y;
+      var xDiff = parseFloat(enemy.attr('x')) - player.x;
+      var yDiff = parseFloat(enemy.attr('y')) - player.y;
 
       var separation = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff,2));
       // TODO why are there no params???
@@ -92,8 +97,8 @@ var render = function(enemyList){
   var tweenWithCollisionDetection = function(endData){
     var enemy = d3.select(this);
     var startPos = {
-      x: parseFloat(enemy.attr('cx')),
-      y: parseFloat(enemy.attr('cy'))
+      x: parseFloat(enemy.attr('x')),
+      y: parseFloat(enemy.attr('y'))
     };
     var endPos = {
       x: axes.x(endData.x),
@@ -105,14 +110,15 @@ var render = function(enemyList){
         x: startPos.x + (endPos.x - startPos.x) * t,
         y: startPos.y + (endPos.y - startPos.y) * t
       };
-      enemy.attr('cx', enemyNextPos.x)
-        .attr('cy', enemyNextPos.y);
+      enemy.attr('x', enemyNextPos.x)
+        .attr('y', enemyNextPos.y);
     };
   };
 
+
   enemies.transition()
     .duration(500)
-    .attr('r', 10)
+    .attr('r', 10)  //TODO rotation
     .duration(2000)
     .tween('custom', tweenWithCollisionDetection);
 };
@@ -128,6 +134,7 @@ var play = function(){
   var increaseScore = function(){
     gameStats.score += 1;
     updateScore();
+    enemyOptions.rotation += 15;
   };
 
   gameTurn();

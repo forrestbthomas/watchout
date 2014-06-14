@@ -40,7 +40,7 @@ Player.prototype.getY = function(){
 
 Player.prototype.setY = function(y){
   var minY = this.gameOptions.padding;
-  var maxY = this.gameOptions.width - this.gameOptions.padding;
+  var maxY = this.gameOptions.height - this.gameOptions.padding;
   y = y <= minY ? minY : y;
   y = y >= maxY ? maxY : y;
   this.y = y;

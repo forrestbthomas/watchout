@@ -17,3 +17,17 @@ body {
   width: 300px;
   height: 150px;
 }
+
+@-webkit-keyframes myrotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.enemy {
+  -webkit-animation: myrotate 10s linear normal infinite;
+  -webkit-transform-origin: center center;
+}
